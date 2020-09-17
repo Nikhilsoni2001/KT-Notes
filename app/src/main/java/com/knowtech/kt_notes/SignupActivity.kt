@@ -29,6 +29,7 @@ class SignupActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         btnSignUp.setOnClickListener { signupUser() }
+      //  btnSignUp.setOnClickListener { signupUser() }
 
         btnGoogleSignUp.setOnClickListener { googleSignupUser() }
 
