@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "363032674589",
+    "firebase_url": "https://kt-notes.firebaseio.com",
+    "project_id": "kt-notes",
+    "storage_bucket": "kt-notes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363032674589:android:b7ed7f81b63ef8137e61f4",
+        "android_client_info": {
+          "package_name": "com.knowtech.kt_notes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363032674589-ul9mriocnsfngmnjm94prnaivtv3n9v6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.knowtech.kt_notes",
+            "certificate_hash": "ddfa97534c248d28a1ce9347ce3836238d0f2966"
+          }
+        },
+        {
+          "client_id": "363032674589-3jovlgm8e51e90g98badbrpnk27o8usg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBy1fWstStyBVyNXGf_XzVoUNkl3IAHIes"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "363032674589-3jovlgm8e51e90g98badbrpnk27o8usg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
