@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
@@ -23,17 +24,34 @@ class SignupActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+    override fun onStart() {
+        super.onStart()
+        auth.signOut()
+        checkLoginState()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
         auth = FirebaseAuth.getInstance()
 
-        btnSignUp.setOnClickListener { signupUser() }
+        btnLogin1.setOnClickListener { signupUser() }
+        btnGoogleSignIn1.setOnClickListener { signInWithGoogle() }
+        txtLoginScreen.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
-        btnGoogleSignUp.setOnClickListener { signInWithGoogle() }
+    }
 
-
+    private fun checkLoginState() {
+        if(auth.currentUser==null) {
+            txtLogin1.text = "Logged Out"
+        } else {
+            txtLogin1.text = "Logged In"
+        }
     }
 
 
@@ -43,47 +61,45 @@ class SignupActivity : AppCompatActivity() {
             .requestEmail()
             .build()
 
-        val signInIntent = GoogleSignIn.getClient(this, options).signInIntent
-        startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST_CODE)
+        val signInClient = GoogleSignIn.getClient(this, options)
+        signInClient.signInIntent.also {
+            startActivityForResult(it, GOOGLE_SIGN_IN_REQUEST_CODE) }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        try {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == GOOGLE_SIGN_IN_REQUEST_CODE) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            val exception = task.exception
-            if (task.isSuccessful) {
-                try {
-                    // Google Sign In was successful, authenticate with Firebase
-                    val account = task.getResult(ApiException::class.java)!!
-                    Log.d("Login", "firebaseAuthWithGoogle:" + account.id)
-                    firebaseAuthWithGoogle(account.idToken!!)
-                } catch (e: ApiException) {
-                    // Google Sign In failed, update UI appropriately
-                    Log.w("Login", "Google sign in failed", e)
-                }
-            } else {
-                Log.d("Login", "onActivityResult: ${exception.toString()}")
-            }
+        if(requestCode == GOOGLE_SIGN_IN_REQUEST_CODE) {
+            val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
+            account?.let {
+                googleAuthForFirebase(it)
+            } } } catch (e: Exception) {
+            Toast.makeText(this,e.message,Toast.LENGTH_LONG).show()
         }
+
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credentials = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credentials).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val intent = Intent(this@SignupActivity, MainActivity::class.java)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Fail", Toast.LENGTH_LONG).show()
+    private fun googleAuthForFirebase(account: GoogleSignInAccount) {
+        val credentials = GoogleAuthProvider.getCredential(account.idToken, null)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                auth.signInWithCredential(credentials).await()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@SignupActivity, "Successfully logged in", Toast.LENGTH_LONG).show()
+                    checkLoginState()
+                }
+            } catch(e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@SignupActivity, e.message, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
 
     private fun signupUser() {
-        val email = etEmail.editText?.text.toString()
-        val password = etPassword.editText?.text.toString()
+        val email = etEmail1.text.toString()
+        val password = etPassword1.text.toString()
 
         if (email.isNotEmpty() && password.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
@@ -95,6 +111,7 @@ class SignupActivity : AppCompatActivity() {
                             "User created successfully!",
                             Toast.LENGTH_LONG
                         ).show()
+                        checkLoginState()
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
