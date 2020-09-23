@@ -1,18 +1,20 @@
-package com.knowtech.kt_notes.ui.screens
+package com.knowtech.kt_notes.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.knowtech.kt_notes.models.Constants.Companion.GOOGLE_SIGN_IN_REQUEST_CODE
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.knowtech.kt_notes.util.Constants.Companion.GOOGLE_SIGN_IN_REQUEST_CODE
 import com.knowtech.kt_notes.R
+import com.knowtech.kt_notes.mvvm.db.Note
+import com.knowtech.kt_notes.screens.NotesActivity
 import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +24,7 @@ import kotlinx.coroutines.withContext
 
 class SignupActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
+     lateinit var auth: FirebaseAuth
 
     override fun onStart() {
         super.onStart()
@@ -105,6 +107,8 @@ class SignupActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     auth.createUserWithEmailAndPassword(email, password).await()
+                   // val note = Note("Test","Test")
+                   // Firebase.firestore.collection(email).add(note)
                     withContext(Dispatchers.Main) {
                         Toast.makeText(
                             this@SignupActivity,
@@ -112,6 +116,13 @@ class SignupActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                         checkLoginState()
+
+                        Intent(applicationContext, NotesActivity::class.java).also {
+                         //   it.putExtra("collection_name",email)
+                            startActivity(it)
+                        }
+                        finish()
+
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {

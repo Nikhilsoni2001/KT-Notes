@@ -11,4 +11,6 @@
     <string name="createacc">Create an Account</string>
     <string name="crtacc">Create Account</string>
     <string name="logintxt">Have an account?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

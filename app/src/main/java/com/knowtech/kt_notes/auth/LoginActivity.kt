@@ -1,4 +1,4 @@
-package com.knowtech.kt_notes.ui.screens
+package com.knowtech.kt_notes.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +10,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.knowtech.kt_notes.R
-import com.knowtech.kt_notes.models.Constants.Companion.GOOGLE_SIGN_IN_REQUEST_CODE
+import com.knowtech.kt_notes.screens.NotesActivity
+import com.knowtech.kt_notes.util.Constants.Companion.GOOGLE_SIGN_IN_REQUEST_CODE
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -55,6 +55,9 @@ class LoginActivity : AppCompatActivity() {
             txtLogin.text = "Logged Out"
         } else {
             txtLogin.text = "Logged In"
+            val intent = Intent(this, NotesActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
@@ -116,6 +119,11 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                         checkLoginState()
+                        Intent(applicationContext, NotesActivity::class.java).also {
+                           // it.putExtra("collection_name",email)
+                            startActivity(it)
+                        }
+                        finish()
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
