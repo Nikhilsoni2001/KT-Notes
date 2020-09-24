@@ -1,4 +1,4 @@
-package com.knowtech.kt_notes.models
+package com.knowtech.kt_notes.util
 
 class Constants {
     companion object {

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/miDarkMode"
+        android:title="Dark Mode" />
+
+    <item
+        android:id="@+id/miInfo"
+        android:title="App Info" />
+
+    <item
+        android:id="@+id/miSignOut"
+        android:title="Sign Out" />
+
+
+
+</menu>

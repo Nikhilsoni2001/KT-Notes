@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/notesFragment">
+
+    <fragment
+        android:id="@+id/notesFragment"
+        android:name="com.knowtech.kt_notes.fragments.NotesFragment"
+        android:label="fragment_notes"
+        tools:layout="@layout/fragment_notes" >
+        <action
+            android:id="@+id/action_notesFragment_to_createNotesFragment"
+            app:destination="@id/createNotesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createNotesFragment"
+        android:name="com.knowtech.kt_notes.fragments.CreateNotesFragment"
+        android:label="fragment_create_notes"
+        tools:layout="@layout/fragment_create_notes" />
+    <fragment
+        android:id="@+id/editNotesFragment"
+        android:name="com.knowtech.kt_notes.EditNotesFragment"
+        android:label="fragment_edit_notes"
+        tools:layout="@layout/fragment_edit_notes" />
+</navigation>
