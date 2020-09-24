@@ -37,6 +37,8 @@ class CreateNotesFragment : Fragment(R.layout.fragment_create_notes) {
 
             if(noteTitle.isNotEmpty() && noteContent.isNotEmpty()) {
                 val note = Note(0,noteTitle,noteContent,false,false)
+                //viewModel.saveNote(note)
+                viewModel.upsert(note)
                 viewModel.saveNote(note)
             }
 

@@ -22,7 +22,8 @@ class NotesViewModel(private val context: Context,private val repository: NotesR
 
     fun upsert(note: Note) = viewModelScope.launch { repository.upsert(note) }
     fun delete(note: Note) = viewModelScope.launch { repository.delete(note) }
-    fun getAllNotes() = viewModelScope.launch { repository.getAllNotes() }
+    fun getAllNotes() = repository.getAllNotes()
+    fun deleteAllNotes() = repository.deleteAllNotes()
 
 
     var noteCollectionRef = Firebase.firestore.collection(NotesActivity.collection_name!!)
@@ -42,8 +43,8 @@ class NotesViewModel(private val context: Context,private val repository: NotesR
 
 
 
-    suspend fun retrievePerson(): String {
-        val sb = StringBuilder()
+    suspend fun retrieveNotes(): List<Note> {
+        val noteList = mutableListOf<Note>()
         val job = viewModelScope.launch {
 
             try {
@@ -51,16 +52,15 @@ class NotesViewModel(private val context: Context,private val repository: NotesR
 
                 for(document in querySnapshot.documents) {
                     val notes = document.toObject(Note::class.java)
-                    sb.append("$notes\n")
-                    Log.e("ishant",sb.toString())
+                    if(notes!=null) {
+                         noteList.add(notes)
+                    }
                 }
 
 
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context,e.message,Toast.LENGTH_LONG).show()
-                    sb.append("Error")
-                    Log.e("ishant","B")
                 }
             }
 
@@ -68,9 +68,7 @@ class NotesViewModel(private val context: Context,private val repository: NotesR
 
         job.join()
 
-
-
-        val result = sb.toString()
+        val result = noteList
 
         return result
     }
