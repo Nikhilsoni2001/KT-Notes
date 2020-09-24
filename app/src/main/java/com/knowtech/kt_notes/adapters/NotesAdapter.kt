@@ -1,8 +1,10 @@
 package com.knowtech.kt_notes.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +36,7 @@ class NotesAdapter: RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
         return differ.currentList.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val note = differ.currentList[position]
         holder.itemView.apply {
@@ -41,8 +44,13 @@ class NotesAdapter: RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
             tvNoteDescription.text = note.note_content
             cbFavourite.isChecked = note.note_favourite
 
-            if(note.note_sync==true) {tvSync.text = "Sync"}
-            else {tvSync.text = "Not Sync"}
+            if(note.note_sync) tvSync.text = "Sync"
+            else tvSync.text = "Not Sync"
+
+            clNote.setOnClickListener {
+                // Update
+                findNavController().navigate(R.id.action_notesFragment_to_updateFragment)
+            }
 
         }
     }

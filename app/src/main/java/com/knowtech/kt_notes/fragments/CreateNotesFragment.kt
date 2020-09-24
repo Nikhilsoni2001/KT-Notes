@@ -2,9 +2,7 @@ package com.knowtech.kt_notes.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.knowtech.kt_notes.R
@@ -12,13 +10,6 @@ import com.knowtech.kt_notes.mvvm.db.Note
 import com.knowtech.kt_notes.mvvm.viewmodels.NotesViewModel
 import com.knowtech.kt_notes.screens.NotesActivity
 import kotlinx.android.synthetic.main.fragment_create_notes.*
-import kotlinx.android.synthetic.main.fragment_notes.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-
 
 class CreateNotesFragment : Fragment(R.layout.fragment_create_notes) {
     lateinit var viewModel: NotesViewModel
@@ -36,15 +27,17 @@ class CreateNotesFragment : Fragment(R.layout.fragment_create_notes) {
             val noteContent = etNoteContent.text.toString()
 
             if(noteTitle.isNotEmpty() && noteContent.isNotEmpty()) {
-                val note = Note(0,noteTitle,noteContent,false,false)
-                //viewModel.saveNote(note)
+                val note = Note(0,noteTitle,noteContent, note_favourite = false, note_sync = false)
                 viewModel.upsert(note)
                 viewModel.saveNote(note)
+                openHome()
             }
-
         }
-
     }
 
-
+    private fun openHome() {
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragment, NotesFragment())
+            ?.commit()
+    }
 }

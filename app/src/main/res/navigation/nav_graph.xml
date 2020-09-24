@@ -13,15 +13,30 @@
         <action
             android:id="@+id/action_notesFragment_to_createNotesFragment"
             app:destination="@id/createNotesFragment" />
+        <action
+            android:id="@+id/action_notesFragment_to_updateFragment"
+            app:destination="@id/updateFragment" />
     </fragment>
     <fragment
         android:id="@+id/createNotesFragment"
         android:name="com.knowtech.kt_notes.fragments.CreateNotesFragment"
         android:label="fragment_create_notes"
-        tools:layout="@layout/fragment_create_notes" />
+        tools:layout="@layout/fragment_create_notes" >
+        <action
+            android:id="@+id/action_createNotesFragment_to_notesFragment"
+            app:destination="@id/notesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editNotesFragment"
-        android:name="com.knowtech.kt_notes.EditNotesFragment"
         android:label="fragment_edit_notes"
         tools:layout="@layout/fragment_edit_notes" />
+    <fragment
+        android:id="@+id/updateFragment"
+        android:name="com.knowtech.kt_notes.fragments.UpdateFragment"
+        android:label="fragment_update"
+        tools:layout="@layout/fragment_update" >
+        <action
+            android:id="@+id/action_updateFragment_to_notesFragment"
+            app:destination="@id/notesFragment" />
+    </fragment>
 </navigation>

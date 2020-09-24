@@ -26,7 +26,7 @@ class NotesViewModel(private val context: Context,private val repository: NotesR
     fun deleteAllNotes() = repository.deleteAllNotes()
 
 
-    var noteCollectionRef = Firebase.firestore.collection(NotesActivity.collection_name!!)
+    private var noteCollectionRef = Firebase.firestore.collection(NotesActivity.collection_name!!)
 
         fun saveNote(note: Note) = viewModelScope.launch {
         try {

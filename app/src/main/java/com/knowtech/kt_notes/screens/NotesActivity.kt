@@ -16,22 +16,18 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.knowtech.kt_notes.R
 import com.knowtech.kt_notes.auth.LoginActivity
-import com.knowtech.kt_notes.auth.SignupActivity
+import com.knowtech.kt_notes.fragments.FavouriteFragment
+import com.knowtech.kt_notes.fragments.NotesFragment
 import com.knowtech.kt_notes.mvvm.db.NotesDatabase
 import com.knowtech.kt_notes.mvvm.repositories.NotesRepository
 import com.knowtech.kt_notes.mvvm.viewmodels.NotesViewModel
 import com.knowtech.kt_notes.mvvm.viewmodels.NotesViewModelFactory
 import kotlinx.android.synthetic.main.activity_notes.*
-import kotlinx.android.synthetic.main.nav_header.*
-import kotlinx.android.synthetic.main.nav_header.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class NotesActivity : AppCompatActivity() {
 
     lateinit var viewModel: NotesViewModel
-    lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var toggle: ActionBarDrawerToggle
 
 
     companion object {
@@ -67,6 +63,8 @@ class NotesActivity : AppCompatActivity() {
 
             navView.setNavigationItemSelectedListener {
                 when(it.itemId) {
+                    R.id.miHome -> openHome()
+                    R.id.miFavourites -> openFavourites()
                     R.id.miDarkMode -> Toast.makeText(applicationContext,"Dark Mode",Toast.LENGTH_LONG).show()
                     R.id.miInfo -> Toast.makeText(applicationContext,"App made by Ishant, Nikhil and Aditya",Toast.LENGTH_LONG).show()
                     R.id.miSignOut -> {
@@ -79,9 +77,18 @@ class NotesActivity : AppCompatActivity() {
                 }
                 true
             }
+    }
 
-            //tvAuthUserInfo?.text = collection_name
+    private fun openHome() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment, NotesFragment())
+            .commit()
+    }
 
+    private fun openFavourites() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment, FavouriteFragment())
+            .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -111,12 +118,9 @@ class NotesActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         if(toggle.onOptionsItemSelected(item)) {
             return true
         }
-
-
         return super.onOptionsItemSelected(item)
     }
 
