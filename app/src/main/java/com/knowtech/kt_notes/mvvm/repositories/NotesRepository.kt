@@ -9,5 +9,4 @@ class NotesRepository(private val db: NotesDatabase) {
     suspend fun delete(note: Note) = db.getNotesDao().delete(note)
     fun getAllNotes() = db.getNotesDao().getAllNotes()
     fun deleteAllNotes() = db.getNotesDao().deleteAllNotes()
-
 }

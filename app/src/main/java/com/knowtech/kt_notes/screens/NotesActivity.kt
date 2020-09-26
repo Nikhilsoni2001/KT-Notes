@@ -72,7 +72,6 @@ class NotesActivity : AppCompatActivity() {
                         
                         val intent = Intent(this, LoginActivity::class.java)
                        startActivity(intent)
-                        finish()
                         }
                 }
                 true
@@ -124,7 +123,10 @@ class NotesActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-
+    override fun onPause() {
+        super.onPause()
+        finish()
+    }
 
 
 }

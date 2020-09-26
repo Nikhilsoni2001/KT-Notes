@@ -1,6 +1,7 @@
 package com.knowtech.kt_notes.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.ktx.firestore
@@ -12,25 +13,38 @@ import com.knowtech.kt_notes.screens.NotesActivity
 import kotlinx.android.synthetic.main.fragment_create_notes.*
 
 class CreateNotesFragment : Fragment(R.layout.fragment_create_notes) {
-    lateinit var viewModel: NotesViewModel
-
-    var noteCollectionRef = Firebase.firestore.collection(NotesActivity.collection_name!!)
-
+    private lateinit var viewModel: NotesViewModel
+    private var documentId: String? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as NotesActivity).viewModel
 
-        btnCreateNote.setOnClickListener {
 
+
+        Firebase.firestore.collection(NotesActivity.collection_name!!)
+            .addSnapshotListener { snapshot, _ ->
+                documentId = snapshot?.documents.toString()
+            }
+
+        btnCreateNote.setOnClickListener {
             val noteTitle = etNoteTitle.text.toString()
             val noteContent = etNoteContent.text.toString()
+            Log.d("docId", documentId.toString())
 
-            if(noteTitle.isNotEmpty() && noteContent.isNotEmpty()) {
-                val note = Note(0,noteTitle,noteContent, note_favourite = false, note_sync = false)
-                viewModel.upsert(note)
+            if (noteTitle.isNotEmpty() && noteContent.isNotEmpty()) {
+                var note =
+                    Note(0, "", noteTitle, noteContent, note_favourite = false, note_sync = false)
                 viewModel.saveNote(note)
+
+                val id = viewModel.one.toString()
+
+                note = Note(0, id, noteTitle, noteContent, note_favourite = false, note_sync = false)
+
+
+                viewModel.upsert(note)
                 openHome()
+
             }
         }
     }

@@ -38,5 +38,8 @@
         <action
             android:id="@+id/action_updateFragment_to_notesFragment"
             app:destination="@id/notesFragment" />
+        <argument
+            android:name="notes"
+            app:argType="com.knowtech.kt_notes.mvvm.db.Note" />
     </fragment>
 </navigation>
