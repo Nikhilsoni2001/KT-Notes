@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/notesFragment"
-        android:name="com.knowtech.kt_notes.fragments.NotesFragment"
+        android:name="com.knowtech.kt_notes.ui.fragments.NotesFragment"
         android:label="fragment_notes"
         tools:layout="@layout/fragment_notes" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/createNotesFragment"
-        android:name="com.knowtech.kt_notes.fragments.CreateNotesFragment"
+        android:name="com.knowtech.kt_notes.ui.fragments.CreateNotesFragment"
         android:label="fragment_create_notes"
         tools:layout="@layout/fragment_create_notes" >
         <action
@@ -27,16 +27,15 @@
             app:destination="@id/notesFragment" />
     </fragment>
     <fragment
-        android:id="@+id/editNotesFragment"
-        android:label="fragment_edit_notes"
-        tools:layout="@layout/fragment_edit_notes" />
-    <fragment
         android:id="@+id/updateFragment"
-        android:name="com.knowtech.kt_notes.fragments.UpdateFragment"
+        android:name="com.knowtech.kt_notes.ui.fragments.UpdateFragment"
         android:label="fragment_update"
         tools:layout="@layout/fragment_update" >
         <action
             android:id="@+id/action_updateFragment_to_notesFragment"
             app:destination="@id/notesFragment" />
+        <argument
+            android:name="notes"
+            app:argType="com.knowtech.kt_notes.mvvm.db.Note" />
     </fragment>
 </navigation>

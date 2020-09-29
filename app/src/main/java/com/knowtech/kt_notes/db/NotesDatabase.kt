@@ -1,4 +1,4 @@
-package com.knowtech.kt_notes.mvvm.db
+package com.knowtech.kt_notes.db
 
 import android.content.Context
 import androidx.room.Database
@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [Note::class],
-    version = 2,
+    version = 7 ,
     exportSchema = true
 )
 abstract class NotesDatabase: RoomDatabase() {

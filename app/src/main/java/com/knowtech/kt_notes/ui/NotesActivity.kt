@@ -1,4 +1,4 @@
-package com.knowtech.kt_notes.screens
+package com.knowtech.kt_notes.ui
 
 import android.app.SearchManager
 import android.content.Context
@@ -15,13 +15,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.knowtech.kt_notes.R
-import com.knowtech.kt_notes.auth.LoginActivity
-import com.knowtech.kt_notes.fragments.FavouriteFragment
-import com.knowtech.kt_notes.fragments.NotesFragment
-import com.knowtech.kt_notes.mvvm.db.NotesDatabase
-import com.knowtech.kt_notes.mvvm.repositories.NotesRepository
-import com.knowtech.kt_notes.mvvm.viewmodels.NotesViewModel
-import com.knowtech.kt_notes.mvvm.viewmodels.NotesViewModelFactory
+import com.knowtech.kt_notes.ui.fragments.FavouriteFragment
+import com.knowtech.kt_notes.ui.fragments.NotesFragment
+import com.knowtech.kt_notes.db.NotesDatabase
+import com.knowtech.kt_notes.repositories.NotesRepository
+import com.knowtech.kt_notes.ui.viewmodels.NotesViewModel
+import com.knowtech.kt_notes.ui.viewmodels.NotesViewModelFactory
 import kotlinx.android.synthetic.main.activity_notes.*
 
 class NotesActivity : AppCompatActivity() {
@@ -72,7 +71,6 @@ class NotesActivity : AppCompatActivity() {
                         
                         val intent = Intent(this, LoginActivity::class.java)
                        startActivity(intent)
-                        finish()
                         }
                 }
                 true
@@ -124,7 +122,10 @@ class NotesActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-
+    override fun onPause() {
+        super.onPause()
+        finish()
+    }
 
 
 }

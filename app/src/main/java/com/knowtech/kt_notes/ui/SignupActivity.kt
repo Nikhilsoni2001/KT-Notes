@@ -1,4 +1,4 @@
-package com.knowtech.kt_notes.auth
+package com.knowtech.kt_notes.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,12 +9,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.knowtech.kt_notes.util.Constants.Companion.GOOGLE_SIGN_IN_REQUEST_CODE
 import com.knowtech.kt_notes.R
-import com.knowtech.kt_notes.mvvm.db.Note
-import com.knowtech.kt_notes.screens.NotesActivity
 import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
