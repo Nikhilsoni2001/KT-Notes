@@ -1,4 +1,4 @@
-package com.knowtech.kt_notes.screens
+package com.knowtech.kt_notes.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,6 @@ import android.os.Bundle
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.knowtech.kt_notes.R
-import com.knowtech.kt_notes.auth.LoginActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

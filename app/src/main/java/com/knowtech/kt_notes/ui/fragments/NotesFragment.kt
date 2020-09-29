@@ -1,21 +1,19 @@
-package com.knowtech.kt_notes.fragments
+package com.knowtech.kt_notes.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.knowtech.kt_notes.R
-import com.knowtech.kt_notes.adapters.NotesAdapter
-import com.knowtech.kt_notes.mvvm.db.Note
-import com.knowtech.kt_notes.mvvm.viewmodels.NotesViewModel
-import com.knowtech.kt_notes.screens.NotesActivity
+import com.knowtech.kt_notes.ui.adapters.NotesAdapter
+import com.knowtech.kt_notes.ui.viewmodels.NotesViewModel
+import com.knowtech.kt_notes.ui.NotesActivity
 import kotlinx.android.synthetic.main.fragment_notes.*
-import kotlinx.android.synthetic.main.note_list.*
 import kotlinx.coroutines.*
 
 class NotesFragment : Fragment(R.layout.fragment_notes) {
@@ -52,6 +50,7 @@ class NotesFragment : Fragment(R.layout.fragment_notes) {
 
         }
         viewModel.getAllNotes().observe(viewLifecycleOwner, Observer { notes ->
+            Log.d("TAG", "onViewCreated: ${notes.toString()}")
             notesAdapter.differ.submitList(notes)
         })
 

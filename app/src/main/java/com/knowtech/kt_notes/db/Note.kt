@@ -1,4 +1,4 @@
-package com.knowtech.kt_notes.mvvm.db
+package com.knowtech.kt_notes.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,7 +8,7 @@ import java.io.Serializable
 data class Note(
     @PrimaryKey(autoGenerate = true)
     val note_id: Int = 0,
-    val document_id: String? = null,
+    var document_id: String? ="",
     val note_title: String = "",
     val note_description: String = "",
     val note_favourite: Boolean = false,

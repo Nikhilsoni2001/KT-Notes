@@ -1,25 +1,14 @@
-package com.knowtech.kt_notes.adapters
+package com.knowtech.kt_notes.ui.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.findFragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.knowtech.kt_notes.R
-import com.knowtech.kt_notes.fragments.UpdateFragment
-import com.knowtech.kt_notes.mvvm.db.Note
-import com.knowtech.kt_notes.mvvm.viewmodels.NotesViewModel
-import com.knowtech.kt_notes.mvvm.viewmodels.NotesViewModelFactory
-import com.knowtech.kt_notes.screens.NotesActivity
+import com.knowtech.kt_notes.db.Note
 import kotlinx.android.synthetic.main.note_list.view.*
 
 class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
