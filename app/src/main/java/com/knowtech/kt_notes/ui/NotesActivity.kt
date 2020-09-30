@@ -17,7 +17,7 @@ import com.google.firebase.ktx.Firebase
 import com.knowtech.kt_notes.R
 import com.knowtech.kt_notes.ui.fragments.FavouriteFragment
 import com.knowtech.kt_notes.ui.fragments.NotesFragment
-import com.knowtech.kt_notes.db.NotesDatabase
+import com.knowtech.kt_notes.mvvm.db.NotesDatabase
 import com.knowtech.kt_notes.repositories.NotesRepository
 import com.knowtech.kt_notes.ui.viewmodels.NotesViewModel
 import com.knowtech.kt_notes.ui.viewmodels.NotesViewModelFactory
