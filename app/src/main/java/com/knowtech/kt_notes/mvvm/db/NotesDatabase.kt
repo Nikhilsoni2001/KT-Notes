@@ -1,4 +1,4 @@
-package com.knowtech.kt_notes.db
+package com.knowtech.kt_notes.mvvm.db
 
 import android.content.Context
 import androidx.room.Database
