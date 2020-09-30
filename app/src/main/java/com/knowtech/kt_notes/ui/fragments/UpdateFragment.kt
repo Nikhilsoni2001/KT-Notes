@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.common.api.ApiException
 import com.knowtech.kt_notes.R
-import com.knowtech.kt_notes.mvvm.db.Note
+import com.knowtech.kt_notes.db.Note
 import com.knowtech.kt_notes.ui.viewmodels.NotesViewModel
 import com.knowtech.kt_notes.ui.NotesActivity
 import kotlinx.android.synthetic.main.fragment_update.*
