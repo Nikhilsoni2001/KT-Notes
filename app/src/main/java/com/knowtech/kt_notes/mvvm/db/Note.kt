@@ -1,4 +1,4 @@
-package com.knowtech.kt_notes.db
+package com.knowtech.kt_notes.mvvm.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

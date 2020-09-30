@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.knowtech.kt_notes.R
-import com.knowtech.kt_notes.db.Note
+import com.knowtech.kt_notes.mvvm.db.Note
 import kotlinx.android.synthetic.main.note_list.view.*
 
 class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {

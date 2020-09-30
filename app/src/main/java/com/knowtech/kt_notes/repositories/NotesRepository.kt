@@ -1,7 +1,7 @@
 package com.knowtech.kt_notes.repositories
 
-import com.knowtech.kt_notes.db.Note
-import com.knowtech.kt_notes.db.NotesDatabase
+import com.knowtech.kt_notes.mvvm.db.Note
+import com.knowtech.kt_notes.mvvm.db.NotesDatabase
 
 class NotesRepository(private val db: NotesDatabase) {
 

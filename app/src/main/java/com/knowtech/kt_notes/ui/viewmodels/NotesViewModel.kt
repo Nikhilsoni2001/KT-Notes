@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.knowtech.kt_notes.db.Note
+import com.knowtech.kt_notes.mvvm.db.Note
 import com.knowtech.kt_notes.repositories.NotesRepository
 import com.knowtech.kt_notes.ui.NotesActivity
 import kotlinx.coroutines.*
@@ -74,17 +74,12 @@ class NotesViewModel(private val context: Context, private val repository: Notes
         return noteList
     }
 
-    suspend fun updateData(note: Note) = viewModelScope.launch {
-
-        try {
-            noteCollectionRef.document(note.document_id.toString()).set(
-                note,
-                SetOptions.merge()
-            ).await()
-        } catch (e: java.lang.Exception) {
-            withContext(Dispatchers.Main) {
-                Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+    suspend fun updateData(note: Note, newNote: Map<String, Any>) = viewModelScope.launch {
+        val noteQuery = noteCollectionRef.whereEqualTo("document_id",note.document_id.toString()).get().await()
+            if(noteQuery.documents.isNotEmpty()) {
+                for(document in noteQuery) {
+                    noteCollectionRef.document(document.id).set(newNote, SetOptions.merge()).await()
+                }
             }
-        }
     }
 }
