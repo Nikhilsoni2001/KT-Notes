@@ -1,4 +1,4 @@
-package com.knowtech.kt_notes.mvvm.db
+package com.knowtech.kt_notes.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

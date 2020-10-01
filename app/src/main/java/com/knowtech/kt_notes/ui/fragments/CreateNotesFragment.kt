@@ -9,7 +9,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.knowtech.kt_notes.R
-import com.knowtech.kt_notes.mvvm.db.Note
+import com.knowtech.kt_notes.db.Note
 import com.knowtech.kt_notes.ui.viewmodels.NotesViewModel
 import com.knowtech.kt_notes.ui.NotesActivity
 import kotlinx.android.synthetic.main.fragment_create_notes.*
