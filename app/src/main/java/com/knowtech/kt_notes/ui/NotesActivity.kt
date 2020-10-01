@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -35,10 +36,6 @@ class NotesActivity : AppCompatActivity() {
         val collection_name = Firebase.auth.currentUser?.email
     }
 
-    override fun onStart() {
-        super.onStart()
-        checkTheme()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +45,9 @@ class NotesActivity : AppCompatActivity() {
         val repository = NotesRepository(database)
         val factory = NotesViewModelFactory(this, repository)
         viewModel = ViewModelProvider(this, factory).get(NotesViewModel::class.java)
+
+        checkTheme()
+        Log.d("TAGHAI", "checkTheme: ${viewModel.getModeFromDataStore.value?.toInt()}")
 
         viewModel.getModeFromDataStore.observe(this, { myMode ->
             mode = myMode
@@ -137,6 +137,7 @@ class NotesActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.theme -> {
                 chooseThemeDialog()
+                return true
             }
         }
         return super.onOptionsItemSelected(item)
@@ -184,11 +185,12 @@ class NotesActivity : AppCompatActivity() {
 
     private fun checkTheme() {
         when (viewModel.getModeFromDataStore.value) {
-            0 -> {
+
+            1 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 delegate.applyDayNight()
             }
-            1 -> {
+            0 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 delegate.applyDayNight()
             }
