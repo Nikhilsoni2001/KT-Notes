@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.knowtech.kt_notes.R
 import com.knowtech.kt_notes.db.Note
-import kotlinx.android.synthetic.main.note_list.view.*
+import kotlinx.android.synthetic.main.notes_single_card.view.*
 
 class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
     inner class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -28,7 +28,8 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.note_list, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.notes_single_card, parent, false)
+//        val view = LayoutInflater.from(parent.context).inflate(R.layout.note_list, parent, false)
         return NotesViewHolder(view)
     }
 

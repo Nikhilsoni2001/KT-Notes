@@ -160,7 +160,7 @@ class NotesActivity : AppCompatActivity() {
                     delegate.applyDayNight()
                     dialog.dismiss()
                 }
-                3 -> {
+                2 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     viewModel.setDark(2)
                     delegate.applyDayNight()
