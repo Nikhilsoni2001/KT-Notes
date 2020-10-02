@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -19,19 +18,17 @@ import kotlinx.coroutines.tasks.await
 class NotesViewModel(private val context: Context, private val repository: NotesRepository) :
     ViewModel() {
 
+
+    private val preferences = Preferences(context)
+
+    fun setDark(mode: Int) = preferences.setDark(mode)
+    fun getDark(): Int = preferences.getDark()
+
+
     fun upsert(note: Note) = viewModelScope.launch { repository.upsert(note) }
     fun delete(note: Note) = viewModelScope.launch { repository.delete(note) }
     fun getAllNotes() = repository.getAllNotes()
     fun deleteAllNotes() = repository.deleteAllNotes()
-
-    private val preferences = Preferences(context)
-
-    val getModeFromDataStore = preferences.getMode.asLiveData()
-
-    fun saveToDataStore(myMode: Int) = viewModelScope.launch(Dispatchers.IO) {
-        preferences.saveToDataStore(myMode)
-    }
-
 
     private var noteCollectionRef = Firebase.firestore.collection(NotesActivity.collection_name!!)
 

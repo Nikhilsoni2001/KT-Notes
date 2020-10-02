@@ -82,11 +82,5 @@ dependencies {
     //Multidex
     implementation 'com.android.support:multidex:1.0.3'
 
-    // data store
-    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
-
-    // Livedata
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-
 
 }
