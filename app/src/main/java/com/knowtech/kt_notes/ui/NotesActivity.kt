@@ -47,11 +47,6 @@ class NotesActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, factory).get(NotesViewModel::class.java)
 
         checkTheme()
-        Log.d("TAGHAI", "checkTheme: ${viewModel.getModeFromDataStore.value?.toInt()}")
-
-        viewModel.getModeFromDataStore.observe(this, { myMode ->
-            mode = myMode
-        })
 
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(toggle)
@@ -106,7 +101,7 @@ class NotesActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
 
-        val manager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchItem = menu?.findItem(R.id.search)
         val searchView = searchItem?.actionView as SearchView
 
@@ -143,36 +138,31 @@ class NotesActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onPause() {
-        super.onPause()
-        finish()
-    }
-
     private fun chooseThemeDialog() {
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.choose_theme_text))
         val styles = arrayOf("Light", "Dark", "System default")
-        val intChecked = viewModel.getModeFromDataStore.value as Int
+        val intChecked = viewModel.getDark()
 
         builder.setSingleChoiceItems(styles, intChecked) { dialog, mode ->
 
             when (mode) {
                 0 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    viewModel.saveToDataStore(0)
+                    viewModel.setDark(0)
                     delegate.applyDayNight()
                     dialog.dismiss()
                 }
                 1 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    viewModel.saveToDataStore(1)
+                    viewModel.setDark(1)
                     delegate.applyDayNight()
                     dialog.dismiss()
                 }
                 3 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    viewModel.saveToDataStore(2)
+                    viewModel.setDark(2)
                     delegate.applyDayNight()
                     dialog.dismiss()
                 }
@@ -184,13 +174,13 @@ class NotesActivity : AppCompatActivity() {
     }
 
     private fun checkTheme() {
-        when (viewModel.getModeFromDataStore.value) {
+        when (viewModel.getDark()) {
 
-            1 -> {
+            0 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 delegate.applyDayNight()
             }
-            0 -> {
+            1 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 delegate.applyDayNight()
             }

@@ -1,46 +1,22 @@
 package com.knowtech.kt_notes.util
 
 import android.content.Context
-import android.util.Log
-import androidx.datastore.DataStore
-import androidx.datastore.preferences.*
-import androidx.datastore.preferences.Preferences
-import com.knowtech.kt_notes.util.Constants.Companion.PREFERENCE_NAME
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
-import java.io.IOException
+import com.knowtech.kt_notes.util.Constants.Companion.MODE
+import com.knowtech.kt_notes.util.Constants.Companion.PREF_NAME
+import com.knowtech.kt_notes.util.Constants.Companion.PRIVATE_MODE
 
 class Preferences(context: Context) {
 
-    // preferences key
-    private object PreferenceKeys {
-        val name = preferencesKey<Int>("Mode")
+    private val sharedPref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+    private val editor = sharedPref.edit()
+
+    fun setDark(mode: Int) {
+        editor.putInt(MODE, mode)
+        editor.apply()
     }
 
-    // Initializing data store
-    private val dataStore: DataStore<Preferences> = context.createDataStore(
-        name = PREFERENCE_NAME
-    )
-
-    suspend fun saveToDataStore(mode: Int) {
-        dataStore.edit { preference ->
-            preference[PreferenceKeys.name] = mode
-        }
+    fun getDark(): Int {
+        return sharedPref.getInt(MODE, 0)
     }
-
-    val getMode: Flow<Int> = dataStore.data
-        .catch { exception ->
-            if(exception is IOException) {
-                Log.d("Datastore : ", exception.message.toString())
-                emit(emptyPreferences())
-            } else {
-                throw exception
-            }
-        }
-        .map { preferences ->
-            val myMode = preferences[PreferenceKeys.name] ?: 0
-            myMode
-        }
 
 }

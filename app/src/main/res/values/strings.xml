@@ -24,4 +24,7 @@
     <string name="description">Description</string>
     <string name="update">Update</string>
     <string name="choose_theme_text">Change Theme</string>
+
+
+    <string name="dark_pref">Dark Pref</string>
 </resources>
