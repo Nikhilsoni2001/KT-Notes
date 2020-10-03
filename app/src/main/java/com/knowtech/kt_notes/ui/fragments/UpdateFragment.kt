@@ -60,22 +60,18 @@ class UpdateFragment : Fragment(R.layout.fragment_update) {
 
 
                 CoroutineScope(Dispatchers.IO).launch {
-                   // Log.d("docId2"," ${ map["note_title"].toString() } ${map["note_description"].toString() } ")
-
                     try {
                         Log.d("docId_update_started", note.document_id!!)
                         viewModel.updateData(note, map)
-                        Log.d("docId_updated", note.document_id!!)
+                        withContext(Dispatchers.Main) {
+                            openHome()
+                        }
                     } catch(e: ApiException) {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
                         }
                     }
-
-
                 }
-
-
             } else {
                 elTitle.error = "Enter title"
                 elDescription.error = "Enter Description"

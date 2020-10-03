@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
+    android:backgroundTint="#fff3e0"
     android:adjustViewBounds="true"
-    android:background="#FFF071"
     app:cardCornerRadius="8dp">
 
     <LinearLayout
@@ -14,37 +14,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvNoteTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
                 android:text="@string/title"
-                android:textColor="@android:color/black"
+                android:textAppearance="@style/title"
                 android:textSize="26sp"
+                android:layout_centerHorizontal="true"
                 android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/cbFavourite"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="8dp"
+                android:layout_alignParentEnd="true"
                 android:layout_marginLeft="8dp"
                 android:button="@drawable/favourite_checkbox"
-                android:gravity="center"
-                app:layout_constraintBottom_toTopOf="@+id/tvNoteDescription"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_alignParentRight="true" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tvNoteDescription"
@@ -54,8 +49,8 @@
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:text="@string/dummy_desc"
-            android:textColor="@android:color/black"
             android:textSize="18sp" />
 
         <TextView

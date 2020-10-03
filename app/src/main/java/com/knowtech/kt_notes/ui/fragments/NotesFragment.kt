@@ -3,6 +3,7 @@ package com.knowtech.kt_notes.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -81,9 +82,16 @@ class NotesFragment : Fragment(R.layout.fragment_notes) {
             attachToRecyclerView(rvNotes)
         }
 
-
-
-
         createNotesFabButton.setOnClickListener { findNavController().navigate(R.id.action_notesFragment_to_createNotesFragment) }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar!!.show()
     }
 }

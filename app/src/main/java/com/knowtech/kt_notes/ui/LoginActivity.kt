@@ -27,7 +27,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         auth.signOut()
-        checkLoginState()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,18 +49,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
-
-    private fun checkLoginState() {
-        if(auth.currentUser==null) {
-            txtLogin.text = "Logged Out"
-        } else {
-            txtLogin.text = "Logged In"
-            val intent = Intent(this, NotesActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-    }
-
 
     private fun signInWithGoogle() {
         val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -94,8 +81,6 @@ class LoginActivity : AppCompatActivity() {
             try {
                 auth.signInWithCredential(credentials).await()
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@LoginActivity, "Successfully logged in", Toast.LENGTH_LONG).show()
-                    checkLoginState()
                 }
             } catch(e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -114,14 +99,7 @@ class LoginActivity : AppCompatActivity() {
                 try {
                     auth.signInWithEmailAndPassword(email, password).await()
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "User logged in successfully!",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        checkLoginState()
                         Intent(applicationContext, NotesActivity::class.java).also {
-                           // it.putExtra("collection_name",email)
                             startActivity(it)
                         }
                         finish()
@@ -134,6 +112,4 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }

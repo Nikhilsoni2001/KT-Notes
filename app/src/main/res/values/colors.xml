@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">@android:color/white</color>
+    <color name="colorOnPrimary">@android:color/black</color>
+    <color name="colorPrimaryDark">#E0E0E0</color>
+    <color name="colorAccent">#dd9a43</color>
+    <color name="menu_icon">@color/colorAccent</color>
+    <color name="text_color">@android:color/black</color>
+
+<!--    <color name="colorOnPrimary">#000000</color>-->
+<!--    <color name="colorAccentNight">#FFFFFF</color>-->
+
+<!--    <color name="primaryTitleColor">#212121</color>-->
+<!--    <color name="primaryTitleColorNight">#FFFFFF</color>-->
 </resources>

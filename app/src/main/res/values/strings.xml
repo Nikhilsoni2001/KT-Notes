@@ -11,7 +11,6 @@
     <string name="createacc">Create an Account</string>
     <string name="crtacc">Create Account</string>
     <string name="logintxt">Have an account?</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
@@ -29,4 +28,5 @@
     <string name="dark_pref">Dark Pref</string>
     <string name="dummy_desc">This is note description. This is a very very very very very very very very looooooooooooong text.</string>
     <string name="sync">Sync</string>
+    <string name="Save">Save</string>
 </resources>
