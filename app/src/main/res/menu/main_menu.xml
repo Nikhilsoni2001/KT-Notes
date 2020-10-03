@@ -13,6 +13,7 @@
         android:id="@+id/theme"
         android:title="Theme"
         android:icon="@drawable/ic_action_dark_mode"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"
+        android:iconTint="@color/colorPrimary"/>
 
 </menu>
