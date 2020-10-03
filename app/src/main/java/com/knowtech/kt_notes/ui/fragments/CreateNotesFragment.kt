@@ -26,7 +26,6 @@ class CreateNotesFragment : Fragment(R.layout.fragment_create_notes) {
         viewModel = (activity as NotesActivity).viewModel
 
 
-
         btnCreateNote.setOnClickListener {
             val noteTitle = etNoteTitle.text.toString()
             var id: String? = ""
@@ -36,38 +35,20 @@ class CreateNotesFragment : Fragment(R.layout.fragment_create_notes) {
             if (noteTitle.isNotEmpty() && noteContent.isNotEmpty()) {
                 CoroutineScope(Dispatchers.IO).launch {
 
-                    var note = Note(0, "", noteTitle, noteContent,false,false)
+                    val note = Note(0, "", noteTitle, noteContent, false, false)
                     id = viewModel.saveNote(note)
                     Log.d("docId_saved_0", note.document_id!!)
 
-                    var noteCollectionRef = Firebase.firestore.collection(NotesActivity.collection_name!!)
-                   // val newNote = Note(0, id, noteTitle, noteContent, false,false)
+                    val noteCollectionRef =
+                        Firebase.firestore.collection(NotesActivity.collection_name!!)
                     val map = mutableMapOf<String, Any>()
                     map["document_id"] = id!!
 
                     noteCollectionRef.document(id!!).set(map, SetOptions.merge())
-
-                    /*
-                    val newNote = Note(0, id, noteTitle, noteContent, false,false)
-                    val map = mutableMapOf<String, Any>()
-
-                    viewModel.updateData(newNote,map)
-                    Log.d("docId_updated", id.toString())
-
-                    var realNote = Note(0, id.toString(), noteTitle, noteContent, note_favourite = false, note_sync = false)
-                    viewModel.upsert(realNote)
-                    Log.d("docId_added_to_room", realNote.document_id!!) */
-
                 }
-
-
-
-
                 findNavController().navigate(R.id.action_createNotesFragment_to_notesFragment)
 
             }
         }
     }
-
-
 }

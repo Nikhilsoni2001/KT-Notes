@@ -25,7 +25,6 @@ class SignupActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         auth.signOut()
-        checkLoginState()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,14 +42,6 @@ class SignupActivity : AppCompatActivity() {
             finish()
         }
 
-    }
-
-    private fun checkLoginState() {
-        if(auth.currentUser==null) {
-            txtLogin1.text = "Logged Out"
-        } else {
-            txtLogin1.text = "Logged In"
-        }
     }
 
 
@@ -86,7 +77,6 @@ class SignupActivity : AppCompatActivity() {
                 auth.signInWithCredential(credentials).await()
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@SignupActivity, "Successfully logged in", Toast.LENGTH_LONG).show()
-                    checkLoginState()
                 }
             } catch(e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -104,22 +94,17 @@ class SignupActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     auth.createUserWithEmailAndPassword(email, password).await()
-                   // val note = Note("Test","Test")
-                   // Firebase.firestore.collection(email).add(note)
                     withContext(Dispatchers.Main) {
                         Toast.makeText(
                             this@SignupActivity,
                             "User created successfully!",
                             Toast.LENGTH_LONG
                         ).show()
-                        checkLoginState()
 
                         Intent(applicationContext, NotesActivity::class.java).also {
-                         //   it.putExtra("collection_name",email)
                             startActivity(it)
                         }
                         finish()
-
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
