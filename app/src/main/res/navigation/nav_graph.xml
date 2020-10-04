@@ -36,6 +36,6 @@
             app:destination="@id/notesFragment" />
         <argument
             android:name="notes"
-            app:argType="com.knowtech.kt_notes.mvvm.db.Note" />
+            app:argType="com.knowtech.kt_notes.db.Note" />
     </fragment>
 </navigation>

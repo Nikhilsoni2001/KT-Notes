@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#424242</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="menu_icon">#ffffff</color>
+    <color name="colorAccent">#dd9a43</color>
+    <color name="text_color">@android:color/white</color>
+    <color name="card_background">#424240</color>
+</resources>

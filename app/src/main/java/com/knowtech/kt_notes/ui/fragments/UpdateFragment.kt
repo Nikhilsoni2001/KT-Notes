@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.common.api.ApiException
 import com.knowtech.kt_notes.R
-import com.knowtech.kt_notes.mvvm.db.Note
+import com.knowtech.kt_notes.db.Note
 import com.knowtech.kt_notes.ui.viewmodels.NotesViewModel
 import com.knowtech.kt_notes.ui.NotesActivity
 import kotlinx.android.synthetic.main.fragment_update.*
@@ -60,22 +60,18 @@ class UpdateFragment : Fragment(R.layout.fragment_update) {
 
 
                 CoroutineScope(Dispatchers.IO).launch {
-                   // Log.d("docId2"," ${ map["note_title"].toString() } ${map["note_description"].toString() } ")
-
                     try {
                         Log.d("docId_update_started", note.document_id!!)
                         viewModel.updateData(note, map)
-                        Log.d("docId_updated", note.document_id!!)
+                        withContext(Dispatchers.Main) {
+                            openHome()
+                        }
                     } catch(e: ApiException) {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
                         }
                     }
-
-
                 }
-
-
             } else {
                 elTitle.error = "Enter title"
                 elDescription.error = "Enter Description"

@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/title"
+        app:boxStrokeColor="@color/colorAccent"
+        app:hintTextColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:hint="@string/description"
+        app:boxStrokeColor="@color/colorAccent"
+        app:hintTextColor="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/btnUpdate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -47,7 +51,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnUpdate"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+        style="@style/TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/update"

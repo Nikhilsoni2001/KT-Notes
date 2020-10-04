@@ -1,16 +1,16 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="textInputStyle">@style/AppTextField</item>
+        <item name="actionBarTheme">@style/actionBarTheme</item>
     </style>
 
 
     <!--    for inputEditLayout-->
-    <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
+    <style name="outlinedInputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
     <style name="inputTextStyle" parent="">
         <item name="boxCornerRadiusBottomStart">16dp</item>
@@ -19,9 +19,9 @@
 
     <!--    for button style-->
     <style name="buttonStyle" parent="">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:color">@android:color/white</item>
         <item name="android:textSize">24sp</item>
+        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -31,4 +31,20 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <!--    Appbar-->
+    <style name="actionBarTheme" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="iconTint">#000000</item>
+        <item name="titleTextColor">@color/colorAccent</item>
+    </style>
+
+    <!--    Headline-->
+    <style name="title" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+    <!--    Button-->
+    <style name="TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>

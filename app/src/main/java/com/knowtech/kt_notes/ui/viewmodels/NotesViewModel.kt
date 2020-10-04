@@ -8,20 +8,27 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.knowtech.kt_notes.mvvm.db.Note
+import com.knowtech.kt_notes.db.Note
 import com.knowtech.kt_notes.repositories.NotesRepository
 import com.knowtech.kt_notes.ui.NotesActivity
+import com.knowtech.kt_notes.util.Preferences
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
 class NotesViewModel(private val context: Context, private val repository: NotesRepository) :
     ViewModel() {
 
+
+    private val preferences = Preferences(context)
+
+    fun setDark(mode: Int) = preferences.setDark(mode)
+    fun getDark(): Int = preferences.getDark()
+
+
     fun upsert(note: Note) = viewModelScope.launch { repository.upsert(note) }
     fun delete(note: Note) = viewModelScope.launch { repository.delete(note) }
     fun getAllNotes() = repository.getAllNotes()
     fun deleteAllNotes() = repository.deleteAllNotes()
-
 
     private var noteCollectionRef = Firebase.firestore.collection(NotesActivity.collection_name!!)
 
@@ -30,7 +37,7 @@ class NotesViewModel(private val context: Context, private val repository: Notes
 
         val job = viewModelScope.launch {
             try {
-                id  = noteCollectionRef.add(note).await().id
+                id = noteCollectionRef.add(note).await().id
 
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, "Note saved successfully!", Toast.LENGTH_LONG).show()
@@ -75,11 +82,12 @@ class NotesViewModel(private val context: Context, private val repository: Notes
     }
 
     suspend fun updateData(note: Note, newNote: Map<String, Any>) = viewModelScope.launch {
-        val noteQuery = noteCollectionRef.whereEqualTo("document_id",note.document_id.toString()).get().await()
-            if(noteQuery.documents.isNotEmpty()) {
-                for(document in noteQuery) {
-                    noteCollectionRef.document(document.id).set(newNote, SetOptions.merge()).await()
-                }
+        val noteQuery =
+            noteCollectionRef.whereEqualTo("document_id", note.document_id.toString()).get().await()
+        if (noteQuery.documents.isNotEmpty()) {
+            for (document in noteQuery) {
+                noteCollectionRef.document(document.id).set(newNote, SetOptions.merge()).await()
             }
+        }
     }
 }

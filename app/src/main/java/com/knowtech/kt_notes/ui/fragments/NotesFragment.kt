@@ -3,17 +3,22 @@ package com.knowtech.kt_notes.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.knowtech.kt_notes.R
 import com.knowtech.kt_notes.ui.adapters.NotesAdapter
 import com.knowtech.kt_notes.ui.viewmodels.NotesViewModel
 import com.knowtech.kt_notes.ui.NotesActivity
 import kotlinx.android.synthetic.main.fragment_notes.*
+import kotlinx.android.synthetic.main.fragment_notes.createNotesFabButton
+import kotlinx.android.synthetic.main.fragment_notes.rvNotes
+import kotlinx.android.synthetic.main.notes_single_card.*
 import kotlinx.coroutines.*
 
 class NotesFragment : Fragment(R.layout.fragment_notes) {
@@ -36,7 +41,7 @@ class NotesFragment : Fragment(R.layout.fragment_notes) {
 
         rvNotes.apply {
             adapter = notesAdapter
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
 
 
@@ -77,9 +82,16 @@ class NotesFragment : Fragment(R.layout.fragment_notes) {
             attachToRecyclerView(rvNotes)
         }
 
-
-
-
         createNotesFabButton.setOnClickListener { findNavController().navigate(R.id.action_notesFragment_to_createNotesFragment) }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar!!.show()
     }
 }
