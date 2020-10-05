@@ -14,27 +14,84 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.knowtech.kt_notes.R
+import com.knowtech.kt_notes.db.Note
 import com.knowtech.kt_notes.ui.fragments.FavouriteFragment
 import com.knowtech.kt_notes.ui.fragments.NotesFragment
 import com.knowtech.kt_notes.db.NotesDatabase
 import com.knowtech.kt_notes.repositories.NotesRepository
 import com.knowtech.kt_notes.ui.viewmodels.NotesViewModel
 import com.knowtech.kt_notes.ui.viewmodels.NotesViewModelFactory
+import com.knowtech.kt_notes.util.NetworkConnection
 import kotlinx.android.synthetic.main.activity_notes.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class NotesActivity : AppCompatActivity() {
 
-    lateinit var viewModel: NotesViewModel
+
     private lateinit var toggle: ActionBarDrawerToggle
     private var mode: Int = 0
 
     companion object {
         val collection_name = Firebase.auth.currentUser?.email
+        lateinit var viewModel: NotesViewModel
+        var internet = true
+
+
+       fun syncNotes(owner: LifecycleOwner) {
+            viewModel.getNotesToSync().observe(owner, Observer { notes ->
+                for (i in 0..notes.size - 1) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val syncNote = Note(
+                            notes[i].note_id,
+                            notes[i].document_id,
+                            notes[i].note_title,
+                            notes[i].note_description,
+                            notes[i].note_favourite,
+                            1
+                        )
+                        val id = viewModel.saveNote(syncNote)
+                        val noteCollectionRef = Firebase.firestore.collection(collection_name!!)
+                        val map = mutableMapOf<String, Any>()
+                        map["document_id"] = id
+                        noteCollectionRef.document(id).set(map, SetOptions.merge())
+
+                        val mainNote = Note(
+                            notes[i].note_id,
+                            id,
+                            notes[i].note_title,
+                            notes[i].note_description,
+                            notes[i].note_favourite,
+                            1
+                        )
+                        viewModel.upsert(mainNote)
+                    }} })
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +102,18 @@ class NotesActivity : AppCompatActivity() {
         val repository = NotesRepository(database)
         val factory = NotesViewModelFactory(this, repository)
         viewModel = ViewModelProvider(this, factory).get(NotesViewModel::class.java)
+
+        internet = false
+
+
+        val networkConnection = NetworkConnection(applicationContext)
+
+        networkConnection.observe(this, Observer { isConnected ->
+                internet = true
+        })
+
+        if(internet==true) { syncNotes(this) }
+
 
         checkTheme()
 
@@ -86,6 +155,8 @@ class NotesActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun openHome() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment, NotesFragment())
@@ -122,6 +193,7 @@ class NotesActivity : AppCompatActivity() {
         })
         return true
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
@@ -172,6 +244,40 @@ class NotesActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
     }
+
+
+  /*  private fun syncNotes() {
+        viewModel.getNotesToSync().observe(this, Observer { notes ->
+            for (i in 0..notes.size - 1) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val syncNote = Note(
+                        notes[i].note_id,
+                        notes[i].document_id,
+                        notes[i].note_title,
+                        notes[i].note_description,
+                        notes[i].note_favourite,
+                        1
+                    )
+                    val id = viewModel.saveNote(syncNote)
+                    val noteCollectionRef = Firebase.firestore.collection(collection_name!!)
+                    val map = mutableMapOf<String, Any>()
+                    map["document_id"] = id
+                    noteCollectionRef.document(id).set(map, SetOptions.merge())
+
+                    val mainNote = Note(
+                        notes[i].note_id,
+                        id,
+                        notes[i].note_title,
+                        notes[i].note_description,
+                        notes[i].note_favourite,
+                        1
+                    )
+                    viewModel.upsert(mainNote)
+                }} })
+    }
+
+    */
+
 
     private fun checkTheme() {
         when (viewModel.getDark()) {

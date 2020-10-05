@@ -25,7 +25,8 @@ class UpdateFragment : Fragment(R.layout.fragment_update) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (activity as NotesActivity).viewModel
+        // viewModel = (activity as NotesActivity).viewModel
+        viewModel = NotesActivity.viewModel
 
 
         val args: UpdateFragmentArgs by navArgs()
@@ -38,7 +39,7 @@ class UpdateFragment : Fragment(R.layout.fragment_update) {
         val noteTitle = etTitle.text.toString()
         val noteDesc = etDescription.text.toString()
         val fav = noteRef.note_favourite
-        val oldNote = Note(noteId, noteTitle, noteDesc, note_favourite = fav, note_sync = false)
+        val oldNote = Note(noteId,docId, noteTitle, noteDesc, fav, 0)
 
         etTitle.setText(noteRef.note_title)
         etDescription.setText(noteRef.note_description)
@@ -48,30 +49,36 @@ class UpdateFragment : Fragment(R.layout.fragment_update) {
         btnUpdate.setOnClickListener {
 
             if (etTitle.text!!.isNotEmpty() && etDescription.text!!.isNotEmpty()) {
-                    elTitle.error = null
-                    elDescription.error = null
+                elTitle.error = null
+                elDescription.error = null
 
-                    val map = mutableMapOf<String,Any>()
-                    map["note_title"] = etTitle.text.toString()
-                    map["note_description"] = etDescription.text.toString()
+                val map = mutableMapOf<String,Any>()
+                map["note_title"] = etTitle.text.toString()
+                map["note_description"] = etDescription.text.toString()
 
-                val note = Note(noteId,docId, etTitle.text.toString(), etDescription.text.toString(), note_favourite = fav, note_sync = false)
+                val note = Note(noteId,docId, etTitle.text.toString(), etDescription.text.toString(), fav, 1)
                 Log.d("docId_ready_to_update", note.document_id!!)
 
 
                 CoroutineScope(Dispatchers.IO).launch {
+                    // Log.d("docId2"," ${ map["note_title"].toString() } ${map["note_description"].toString() } ")
+
                     try {
-                        Log.d("docId_update_started", note.document_id!!)
+                        //  Log.d("docId_update_started", note.document_id!!)
                         viewModel.updateData(note, map)
-                        withContext(Dispatchers.Main) {
-                            openHome()
-                        }
+                        viewModel.upsert(note)
+                        //Log.d("docId_updated", note.document_id!!)
+                        openHome()
                     } catch(e: ApiException) {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
                         }
                     }
+
+
                 }
+
+
             } else {
                 elTitle.error = "Enter title"
                 elDescription.error = "Enter Description"

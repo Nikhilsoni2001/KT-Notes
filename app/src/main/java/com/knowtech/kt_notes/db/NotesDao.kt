@@ -18,5 +18,8 @@ interface NotesDao {
     @Query("DELETE FROM notes")
     fun deleteAllNotes()
 
+    @Query("SELECT * FROM notes WHERE note_sync=0")
+    fun getNotesToSync(): LiveData<List<Note>>
+
 
 }

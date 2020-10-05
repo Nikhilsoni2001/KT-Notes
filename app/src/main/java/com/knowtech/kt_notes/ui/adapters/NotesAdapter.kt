@@ -44,10 +44,14 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
         holder.itemView.apply {
             tvNoteTitle.text = note.note_title
             tvNoteDescription.text = note.note_description
-            cbFavourite.isChecked = note.note_favourite
 
-            if (note.note_sync) tvSync.text = "Sync"
-            else tvSync.text = "Not Sync"
+            if(note.note_favourite == 0) {
+            cbFavourite.isChecked = true} else {
+                cbFavourite.isChecked = false
+            }
+
+            if (note.note_sync == 1)  {tvSync.text = "Sync" }
+            else { tvSync.text = "Not Sync" }
 
             setOnClickListener {
                 onItemClickListener?.let { it(note) }

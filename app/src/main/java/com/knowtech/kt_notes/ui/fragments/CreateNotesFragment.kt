@@ -23,32 +23,29 @@ class CreateNotesFragment : Fragment(R.layout.fragment_create_notes) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (activity as NotesActivity).viewModel
+        // viewModel = (activity as NotesActivity).viewModel
+        viewModel = NotesActivity.viewModel
+
 
 
         btnCreateNote.setOnClickListener {
             val noteTitle = etNoteTitle.text.toString()
             var id: String? = ""
             val noteContent = etNoteContent.text.toString()
-            Log.d("docId_initialize", documentId.toString())
+
 
             if (noteTitle.isNotEmpty() && noteContent.isNotEmpty()) {
                 CoroutineScope(Dispatchers.IO).launch {
 
-                    val note = Note(0, "", noteTitle, noteContent, false, false)
-                    id = viewModel.saveNote(note)
-                    Log.d("docId_saved_0", note.document_id!!)
-
-                    val noteCollectionRef =
-                        Firebase.firestore.collection(NotesActivity.collection_name!!)
-                    val map = mutableMapOf<String, Any>()
-                    map["document_id"] = id!!
-
-                    noteCollectionRef.document(id!!).set(map, SetOptions.merge())
+                    var note = Note(0, "", noteTitle, noteContent,0,0)
+                    viewModel.upsert(note)
                 }
+
                 findNavController().navigate(R.id.action_createNotesFragment_to_notesFragment)
 
             }
         }
     }
+
+
 }

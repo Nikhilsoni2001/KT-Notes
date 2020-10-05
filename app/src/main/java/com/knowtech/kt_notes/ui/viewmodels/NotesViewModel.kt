@@ -29,6 +29,7 @@ class NotesViewModel(private val context: Context, private val repository: Notes
     fun delete(note: Note) = viewModelScope.launch { repository.delete(note) }
     fun getAllNotes() = repository.getAllNotes()
     fun deleteAllNotes() = repository.deleteAllNotes()
+    fun getNotesToSync() = repository.getNotesToSync()
 
     private var noteCollectionRef = Firebase.firestore.collection(NotesActivity.collection_name!!)
 
@@ -90,4 +91,16 @@ class NotesViewModel(private val context: Context, private val repository: Notes
             }
         }
     }
+
+    suspend fun deleteData(note: Note) = viewModelScope.launch {
+        val noteQuery = noteCollectionRef.whereEqualTo("document_id",note.document_id.toString()).get().await()
+        if(noteQuery.documents.isNotEmpty()) {
+            for(document in noteQuery) {
+                noteCollectionRef.document(document.id).delete().await()
+            }
+        }
+    }
+
+
+
 }
